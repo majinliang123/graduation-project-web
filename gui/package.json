@@ -1,0 +1,9 @@
+{
+    "name": "gui",
+    "description": "graduation project",
+    "version": "1.0.0",
+    "dependencies": {
+        "winston": "0.7.x",
+        "express": "4.x"
+    }
+}

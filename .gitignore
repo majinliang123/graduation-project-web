@@ -1,0 +1,3 @@
+./gui/node_modules
+./container/node_modules
+./api/*/node_modules
