@@ -1,0 +1,10 @@
+{
+    "guiPath": "../../gui",
+    "logging": {
+        "logToConsole": true,
+        "file": {
+            "path": "../../logs/gui.log",
+            "logLevel": "info"
+        }
+    }
+}

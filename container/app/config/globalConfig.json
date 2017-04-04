@@ -1,0 +1,12 @@
+{
+    "port": 8082,
+    "guiPath": "../../gui",
+    "apiPath": "../../api",
+    "logging": {
+        "logToConsole": true,
+        "file": {
+            "path": "../../logs/container.log",
+            "logLevel": "info"
+        }
+    }
+}

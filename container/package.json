@@ -1,5 +1,5 @@
 {
-    "name": "gui",
+    "name": "container",
     "description": "graduation project",
     "version": "1.0.0",
     "dependencies": {
@@ -7,6 +7,7 @@
         "body-parser": "1.8.x",
         "nconf": "~0.6.9",
         "path": "0.12.7",
-        "express": "4.x"
+        "express": "4.x",
+        "glob": "~3.2.9"
     }
 }
