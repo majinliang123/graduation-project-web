@@ -10,7 +10,7 @@ nconf.file('Base', { file: configPath });
 var logger = new (winston.Logger)({
     transports: [
         new (winston.transports.Console)(),
-        new (winston.transports.File)({ filename: nconf.get('logging:file:path'), })
+        new (winston.transports.File)({ filename: nconf.get('logging:file:path') })
     ]
 });
 

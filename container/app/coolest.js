@@ -15,7 +15,7 @@ var port = nconf.get('port');
 var logger = new (winston.Logger)({
     transports: [
         new (winston.transports.Console)(),
-        new (winston.transports.File)({ filename: nconf.get('logging:file:path'), })
+        new (winston.transports.File)({ filename: nconf.get('logging:file:path') })
     ]
 });
 
@@ -57,8 +57,8 @@ function getApis() {
     require('./service/api.js')(apiList);
 }
 
-function start(){
-     getGui();
+function start() {
+    getGui();
 }
 
 start();
