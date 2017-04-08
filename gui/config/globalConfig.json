@@ -3,7 +3,7 @@
     "logging": {
         "logToConsole": true,
         "file": {
-            "path": "../../logs/gui.log",
+            "path": "logs/gui.log",
             "logLevel": "info"
         }
     }

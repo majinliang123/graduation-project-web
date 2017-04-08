@@ -5,7 +5,7 @@
     "logging": {
         "logToConsole": true,
         "file": {
-            "path": "../../logs/container.log",
+            "path": "logs/container.log",
             "logLevel": "info"
         }
     }
