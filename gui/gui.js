@@ -1,8 +1,7 @@
 var express = require("express"),
     nconf = require("nconf"),
     path = require("path"),
-    winston = require("winston"),
-    bodyParser = require("body-parser");
+    winston = require("winston");
 
 // init some configs
 var configPath = path.resolve(__dirname + '/config/globalConfig.json');
@@ -14,23 +13,10 @@ var logger = new (winston.Logger)({
     ]
 });
 
-logger.info('GUI is starting');
+
 var app = express();
 app.use(express.static(__dirname));
 
-app.get('/login', function (req, res) {
-    logger.info('Request method is: ' + req.method + ' . Url is: ' + req.path);
-    res.sendFile(__dirname + "/" + "login.html");
-});
-app.all('*', function (req, res) {
-    logger.info('Request method is: ' + req.method + ' . Url is: ' + req.path);
-    res.sendFile(__dirname + "/" + "index.html");
-});
 
 
-module.exports = function (port) {
-    app.listen(port, function () {
-        logger.info('gui is started.');
-        logger.info('gui is listening at: ' + port);
-    });
-};
+module.exports = app;

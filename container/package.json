@@ -8,6 +8,9 @@
         "nconf": "~0.6.9",
         "path": "0.12.7",
         "express": "4.x",
-        "glob": "~3.2.9"
+        "glob": "~3.2.9",
+        "cookie-parser": "1.4.3",
+        "express-session": "1.15.2",
+        "serve-favicon": "2.4.2"
     }
 }
