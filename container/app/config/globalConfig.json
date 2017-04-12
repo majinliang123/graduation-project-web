@@ -8,5 +8,6 @@
             "path": "logs/container.log",
             "logLevel": "info"
         }
-    }
+    },
+    "mongoDBUrl":"mongodb://localhost:27017/coolest"
 }

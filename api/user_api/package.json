@@ -1,0 +1,15 @@
+{
+    "name": "user_api",
+    "description": "graduation project",
+    "version": "1.0.0",
+    "dependencies": {
+        "winston": "0.7.x",
+        "nconf": "~0.6.9",
+        "path": "0.12.7",
+        "mongodb": "2.2.25",
+        "express": "4.x",
+        "url": "0.11.0",
+        "body-parser": "1.8.x",
+        "swagger-node-express": "~2.0"        
+    }
+}
