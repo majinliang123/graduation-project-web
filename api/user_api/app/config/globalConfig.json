@@ -1,0 +1,10 @@
+{
+    "collectoin": "users",
+    "logging": {
+        "logToConsole": true,
+        "file": {
+            "path":"logs/user_api.log",
+            "logLevel": "info"
+        }
+    }
+}
