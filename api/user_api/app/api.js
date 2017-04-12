@@ -7,6 +7,9 @@ var nconf = require("nconf"),
   swagger = require("swagger-node-express");
 
 
+var user = require('./controller/user.js');
+
+
 
 // init config
 var configPath = path.resolve(__dirname + '/config/globalConfig.json');
@@ -34,25 +37,10 @@ swagger.setHeaders = function setHeaders(res) {
   res.header("Content-Type", "application/json; charset=utf-8");
 };
 
-var findById = {
-  'spec': {
-    "description": "Operations about pets",
-    "path": "/pet/{petId}",
-    "notes": "Returns a pet based on ID",
-    "summary": "Find pet by ID",
-    "method": "GET",
-    "parameters": [swagger.pathParam("petId", "ID of pet that needs to be fetched", "string")],
-    "type": "Pet",
-    "errorResponses": [swagger.errors.invalid('id'), swagger.errors.notFound('pet')],
-    "nickname": "getPetById"
-  },
-  'action': function (req, res) {
-    res.send(JSON.stringify(req.params.petId));
-  }
-};
+
 
 
 module.exports.initalize = function (callback) {
-  swagger.configure("/api11/", "0.2");
-  swagger.addGet(findById);
+  swagger.addGet(user.findByUsername);
+  callback(swagger);
 }
