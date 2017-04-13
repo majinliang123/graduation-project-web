@@ -20,10 +20,22 @@ var logger = new (winston.Logger)({
 function findByUsernameHandler(req, res, next) {
     logger.info('handling by findByUsername');
     var database = req.database;
+    var esClient = req.esClient;
     var query = {};
+
     if (req.params.username) {
         query['userName'] = req.params.username;
     }
+
+    esClient.search({
+        q: '1'
+    }).then(function (body) {
+        var hits = body.hits.hits;
+        console.log(hits);
+    }, function (error) {
+        console.trace(error.message);
+    });
+
     database.collection(users_collection).find(query).toArray(function (err, docs) {
         if (!err) {
             logger.info('Searching, query params is: ' + JSON.stringify(query));

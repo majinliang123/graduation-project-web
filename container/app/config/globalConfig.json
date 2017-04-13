@@ -9,5 +9,6 @@
             "logLevel": "info"
         }
     },
-    "mongoDBUrl":"mongodb://localhost:27017/coolest"
+    "mongoDBUrl": "mongodb://localhost:27017/coolest",
+    "elasticSearchUrl": "http://localhost:9200"
 }

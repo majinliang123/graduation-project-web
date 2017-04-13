@@ -5,6 +5,7 @@
   "dependencies": {
     "body-parser": "1.8.x",
     "cookie-parser": "1.4.3",
+    "elasticsearch": "^13.0.0-rc2",
     "express": "4.x",
     "express-session": "1.15.2",
     "glob": "~3.2.9",
