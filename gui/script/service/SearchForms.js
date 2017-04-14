@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('coolest')
     .factory('SearchForms', [function () {
         return {

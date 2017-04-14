@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('CoolestLogin', [])
     .controller('LoginController', ['$scope', '$http', function ($scope, $http) {
         $scope.username = '';
@@ -8,15 +10,15 @@ angular.module('CoolestLogin', [])
                 'password': $scope.password
             };
             sendPost(data);
-        }
+        };
 
         function sendPost(data) {
-            var data = $.param(data);
+            var sendData = $.param(data);
             $http({
                 method: 'POST',
                 url: 'login',
-                data: data,
+                data: sendData,
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-            })
+            });
         }
     }]);

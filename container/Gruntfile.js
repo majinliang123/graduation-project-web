@@ -7,7 +7,7 @@ module.exports = function (grunt) {
             options: {
                 jshintrc:'.jshintrc'
             },
-            build: ['Gruntfile.js','gui.js','script/*/*.js']
+            build: ['Gruntfile.js','app/*/*.js', 'app/public/script/*/*js']
         }
     });
 
