@@ -11,6 +11,7 @@ var express = require("express"),
     glob = require("glob"),
     Q = require('q'),
     elasticsearch = require('elasticsearch'),
+    argv = require('yargs').argv,
     MongoClient = require('mongodb').MongoClient;
 
 
@@ -24,7 +25,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 
 // init some configs
-var configPath = path.resolve(__dirname + '/config/globalConfig.json');
+var env;
+if (argv.env) {
+    env = argv.env;
+} else {
+    env = 'local';
+}
+var configPath = path.resolve(__dirname + '/config/globalConfig.' + env + '.json');
 nconf.file('Base', { file: configPath });
 var port = nconf.get('port');
 var logger = new (winston.Logger)({

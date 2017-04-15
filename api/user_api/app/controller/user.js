@@ -25,7 +25,7 @@ function findByUsernameHandler(req, res) {
     var query = {};
 
     if (req.params.username) {
-        query.userName = req.params.username;
+        query.username = req.params.username;
     }
 
     esClient.search({
