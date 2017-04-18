@@ -7,19 +7,12 @@
   ],
   "license": "MIT",
   "keywords": [
-    "the",
-    "gui",
-    "of",
-    "Coolest"
   ],
   "homepage": "https://github.com/majinliang123/graduation-project",
   "private": true,
   "ignore": [
     "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
+    "node_modules"
   ],
   "dependencies": {
     "jquery": "^3.2.1",

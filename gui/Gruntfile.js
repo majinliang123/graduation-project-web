@@ -14,7 +14,7 @@ module.exports = function (grunt) {
                 options: {
                     copy: false,
                     targetDir: 'component',
-                    layout: 'byType',
+                    layout: 'byComponent',
                     install: true,
                     verbose: false,
                     prune: false,
