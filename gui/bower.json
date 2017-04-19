@@ -6,8 +6,7 @@
     "Madison"
   ],
   "license": "MIT",
-  "keywords": [
-  ],
+  "keywords": [],
   "homepage": "https://github.com/majinliang123/graduation-project",
   "private": true,
   "ignore": [
@@ -17,6 +16,7 @@
   "dependencies": {
     "jquery": "^3.2.1",
     "bootstrap": "^3.3.7",
-    "angular": "^1.6.4"
+    "angular": "^1.6.4",
+    "angular-ui-grid": "ng-grid#^4.0.4"
   }
 }
