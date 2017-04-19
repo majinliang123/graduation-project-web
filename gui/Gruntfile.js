@@ -9,8 +9,8 @@ module.exports = function (grunt) {
             },
             build: ['Gruntfile.js', 'gui.js', 'script/*/*.js']
         },
-        "bower": {
-            "install": {
+        'bower': {
+            'install': {
                 options: {
                     copy: false,
                     targetDir: 'component',
@@ -26,7 +26,7 @@ module.exports = function (grunt) {
         }
     });
 
-    // Load the plugin that provides the "uglify" task.
+    // Load the plugin that provides the 'uglify' task.
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-bower-task');
 
