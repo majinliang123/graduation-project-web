@@ -2,5 +2,9 @@ language: node_js
 node_js:
   - "iojs"
   - "7"
+
 install: cd gui && npm install && bower install
 script: grunt jshint && grunt 
+
+install: cd container && npm install
+script: grunt jshint
