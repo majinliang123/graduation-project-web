@@ -10,6 +10,10 @@
         "express": "4.x",
         "url": "0.11.0",
         "body-parser": "1.8.x",
-        "swagger-node-express": "~2.0"        
+        "swagger-node-express": "~2.0"
+    },
+    "devDependencies": {
+        "grunt": "^1.0.1",
+        "grunt-contrib-jshint": "^1.1.0"
     }
 }

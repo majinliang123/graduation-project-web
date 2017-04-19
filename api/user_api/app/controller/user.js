@@ -1,8 +1,9 @@
-var swagger = require("swagger-node-express"),
-    nconf = require("nconf"),
-    path = require("path"),
-    bodyParser = require("body-parser"),
-    winston = require("winston");
+'use strict';
+
+var swagger = require('swagger-node-express'),
+    nconf = require('nconf'),
+    path = require('path'),
+    winston = require('winston');
 
 var users_collection = 'users';
 // init config
@@ -17,13 +18,25 @@ var logger = new (winston.Logger)({
 });
 
 
-function findByUsernameHandler(req, res, next) {
+function findByUsernameHandler(req, res) {
     logger.info('handling by findByUsername');
     var database = req.database;
+    var esClient = req.esClient;
     var query = {};
+
     if (req.params.username) {
-        query['userName'] = req.params.username;
+        query.username = req.params.username;
     }
+
+    esClient.search({
+        q: '1'
+    }).then(function (body) {
+        var hits = body.hits.hits;
+        console.log(hits);
+    }, function (error) {
+        console.trace(error.message);
+    });
+
     database.collection(users_collection).find(query).toArray(function (err, docs) {
         if (!err) {
             logger.info('Searching, query params is: ' + JSON.stringify(query));
@@ -35,14 +48,14 @@ function findByUsernameHandler(req, res, next) {
 
 module.exports.findByUsername = {
     'spec': {
-        "description": "Operations about pets",
-        "path": "/username/{username}",
-        "notes": "Returns a user info",
-        "summary": "Find user by username",
-        "method": "GET",
-        "parameters": [swagger.pathParam("username", "Iusername of a user", "string")],
-        "type": "User",
-        "nickname": "findByUsername"
+        'description': 'Operations about pets',
+        'path': '/username/{username}',
+        'notes': 'Returns a user info',
+        'summary': 'Find user by username',
+        'method': 'GET',
+        'parameters': [swagger.pathParam('username', 'Iusername of a user', 'string')],
+        'type': 'User',
+        'nickname': 'findByUsername'
     },
     'action': findByUsernameHandler
 };

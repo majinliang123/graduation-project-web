@@ -5,6 +5,7 @@
   "dependencies": {
     "body-parser": "1.8.x",
     "cookie-parser": "1.4.3",
+    "elasticsearch": "^13.0.0-rc2",
     "express": "4.x",
     "express-session": "1.15.2",
     "glob": "~3.2.9",
@@ -13,6 +14,11 @@
     "path": "0.12.7",
     "q": "^1.5.0",
     "serve-favicon": "2.4.2",
-    "winston": "0.7.x"
+    "winston": "0.7.x",
+    "yargs": "^7.1.0"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-jshint": "^1.1.0"
   }
 }

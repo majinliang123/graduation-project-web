@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('coolest')
     .controller('SidebarController', ['SearchForms', '$scope', function (SearchForms, $scope) {
         var keys = Object.keys(SearchForms);
@@ -8,7 +10,7 @@ angular.module('coolest')
                     return letter.toUpperCase();
                 }),
                 link: './' + element.toLowerCase() + '/'
-            }
+            };
             $scope.sidebars.push(sidebar);
         });
     }]);

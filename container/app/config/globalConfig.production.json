@@ -1,0 +1,14 @@
+{
+    "port": 8080,
+    "guiPath": "../../gui",
+    "apiPath": "../../api",
+    "logging": {
+        "logToConsole": true,
+        "file": {
+            "path": "logs/container.log",
+            "logLevel": "info"
+        }
+    },
+    "mongoDBUrl": "mongodb://112.74.28.207/coolest",
+    "elasticSearchUrl": "http://112.74.73.233:9200"
+}

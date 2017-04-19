@@ -10,6 +10,8 @@ var express = require("express"),
     cookieParser = require('cookie-parser'),
     glob = require("glob"),
     Q = require('q'),
+    elasticsearch = require('elasticsearch'),
+    argv = require('yargs').argv,
     MongoClient = require('mongodb').MongoClient;
 
 
@@ -23,7 +25,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 
 // init some configs
-var configPath = path.resolve(__dirname + '/config/globalConfig.json');
+var env;
+if (argv.env) {
+    env = argv.env;
+} else {
+    env = 'local';
+}
+var configPath = path.resolve(__dirname + '/config/globalConfig.' + env + '.json');
 nconf.file('Base', { file: configPath });
 var port = nconf.get('port');
 var logger = new (winston.Logger)({
@@ -33,16 +41,19 @@ var logger = new (winston.Logger)({
     ]
 });
 var mongoDBUrl = nconf.get('mongoDBUrl');
+var elasticSearchUrl = nconf.get('elasticSearchUrl');
 var database = {};
-
+var esClient;
 
 
 logger.info('coolest is starting.');
-connectToDB().
-    then(function () {
+connectToDB()
+    .then(connectToES)
+    .then(function () {
         app.use('*', function (req, res, next) {
             logger.info('Request method is: ' + req.method + ' . Url is: ' + req.originalUrl);
             req.database = database;
+            req.esClient = esClient;
             next();
         });
 
@@ -126,7 +137,7 @@ connectToDB().
         });
 
     }).
-    fail(function(err){
+    fail(function (err) {
         ogger.info('Error initializing Coolest');
     });
 
@@ -141,6 +152,27 @@ function connectToDB() {
         } else {
             logger.error("Connected failed to mongodb: " + mongoDBUrl);
             deferred.reject("Connected failed to mongodb: " + mongoDBUrl);
+        }
+    });
+    return deferred.promise;
+}
+
+
+function connectToES() {
+    var deferred = Q.defer();
+    esClient = new elasticsearch.Client({
+        host: elasticSearchUrl
+    });
+    esClient.ping({
+        requestTimeout: 1000
+    }, function (error) {
+        if (error) {
+            logger.error('Connected failed to ElasticSearch: ' + elasticSearchUrl);
+            deferred.reject('Connect failed to ElasticSearch: ' + elasticSearchUrl);
+
+        } else {
+            logger.info('Connected successfully to ElasticSearch: ' + elasticSearchUrl);
+            deferred.resolve();
         }
     });
     return deferred.promise;
