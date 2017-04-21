@@ -1,9 +1,12 @@
 'use strict';
 
 var swagger = require('swagger-node-express'),
-    nconf = require('nconf'),
-    path = require('path'),
-    winston = require('winston');
+	nconf = require('nconf'),
+	path = require('path'),
+	hal = require('hal'),
+	winston = require('winston');
+
+var paginator = require('../service/paginator.js');
 
 var users_collection = 'users';
 // init config
@@ -11,51 +14,73 @@ var configPath = path.resolve(__dirname + '/../config/globalConfig.json');
 nconf.file('Base', { file: configPath });
 var users_collection = nconf.get('collectoin');
 var logger = new (winston.Logger)({
-    transports: [
-        new (winston.transports.Console)(),
-        new (winston.transports.File)({ filename: nconf.get('logging:file:path') })
-    ]
+	transports: [
+		new (winston.transports.Console)(),
+		new (winston.transports.File)({ filename: nconf.get('logging:file:path') })
+	]
 });
 
 
-function findByUsernameHandler(req, res) {
-    logger.info('handling by findByUsername');
-    var database = req.database;
-    var esClient = req.esClient;
-    var query = {};
+function findUserHandler(req, res) {
+	logger.info('handling by findUserHandler');
+	var database = req.database;
+	var query = {};
+	var params = {};
+	var pageSize = 100;
 
-    if (req.params.username) {
-        query.username = req.params.username;
-    }
+	if (req.query.username) {
+		query.username = req.query.username;
+	}
+	if (req.query.age) {
+		query.age = parseInt(req.query.age, 10);
+	}
+	if (req.query.sex) {
+		query.sex = req.query.sex;
+	}
+	if (req.query.email) {
+		query.email = req.query.email;
+	}
 
-    esClient.search({
-        q: '1'
-    }).then(function (body) {
-        var hits = body.hits.hits;
-        console.log(hits);
-    }, function (error) {
-        console.trace(error.message);
-    });
+	if (req.query.lastId) {
+		params.lastId = req.query.lastId;
+	}
 
-    database.collection(users_collection).find(query).toArray(function (err, docs) {
-        if (!err) {
-            logger.info('Searching, query params is: ' + JSON.stringify(query));
-            res.json(docs);
-            logger.info('Search successfully, results are: ' + JSON.stringify(docs));
-        }
-    });
+	params.returnField = {};
+	params.collection = users_collection;
+	params.pageSize = pageSize;
+	params.query = query;
+
+	paginator.getPaginatedById(database, params, function (err, docs) {
+		if (!err) {
+			logger.info('Searching, query params is: ' + JSON.stringify(params));
+			if (docs.length > 0) {
+				var resource = new hal.Resource({ 'pageSize': pageSize }, 'user?firstId=' + docs[0]._id);
+				resource.link('Next', 'api/user?lastId=' + docs[docs.length - 1]._id);
+				resource.embed('users', docs);
+				res.json(resource);
+			}else{
+				res.json({});
+			}
+
+			logger.info('Search successfully, results are: ' + JSON.stringify(docs));
+		}
+	});
 }
 
-module.exports.findByUsername = {
-    'spec': {
-        'description': 'Operations about pets',
-        'path': '/username/{username}',
-        'notes': 'Returns a user info',
-        'summary': 'Find user by username',
-        'method': 'GET',
-        'parameters': [swagger.pathParam('username', 'Iusername of a user', 'string')],
-        'type': 'User',
-        'nickname': 'findByUsername'
-    },
-    'action': findByUsernameHandler
+module.exports.findUser = {
+	'spec': {
+		'description': 'Operations about pets',
+		'path': '/user',
+		'notes': 'Returns a user info',
+		'summary': 'Find user by info',
+		'method': 'GET',
+		'parameters': [
+			swagger.queryParam('username', 'username of a user', 'string'),
+			swagger.queryParam('age', 'age of a user', 'int'),
+			swagger.queryParam('sex', 'sex of a user', 'string'),
+			swagger.queryParam('email', 'email of a user', 'string')],
+		'type': 'User',
+		'nickname': 'findUserHandler'
+	},
+	'action': findUserHandler
 };

@@ -34,6 +34,6 @@ swagger.setHeaders = function setHeaders(res) {
 
 
 module.exports.initalize = function (callback) {
-  swagger.addGet(user.findByUsername);
+  swagger.addGet(user.findUser);
   callback(swagger);
 };

@@ -3,10 +3,10 @@
   "description": "graduation project",
   "version": "1.0.0",
   "dependencies": {
-    "winston": "0.7.x",
+    "express": "4.x",
     "nconf": "~0.6.9",
     "path": "0.12.7",
-    "express": "4.x"
+    "winston": "0.7.x"
   },
   "devDependencies": {
     "bower": "^1.8.0",
