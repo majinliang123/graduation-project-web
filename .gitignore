@@ -1,5 +1,6 @@
 gui/node_modules/
 gui/component/
+gui/style/
 container/node_modules/
 api/*/node_modules/
 logs/

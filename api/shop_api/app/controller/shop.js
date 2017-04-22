@@ -31,7 +31,7 @@ function findShopHandler(req, res) {
 		query.shopname = req.query.shopname;
 	}
 	if (req.query.boss) {
-		query.boss = parseInt(req.query.boss, 10);
+		query.boss = req.query.boss;
 	}
 	if (req.query.goods) {
 		query.goods = req.query.goods;
