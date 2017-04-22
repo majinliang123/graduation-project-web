@@ -101,7 +101,7 @@ connectToDB()
             var gui = require(path.resolve(__dirname + '/' + nconf.get('guiPath') + '/gui.js'));
             if (gui) {
                 logger.info('GUI is starting');
-                app.use(gui);
+                app.use('/gui', gui);
             } else {
                 logger.error('Can\'t discover GUI');
             }
