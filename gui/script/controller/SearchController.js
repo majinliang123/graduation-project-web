@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('coolest')
-	.controller('SearchController', ['SearchForms', 'Search', '$location', '$scope', function (SearchForms, Search, $location, $scope) {
+	.controller('SearchController', ['SearchForms', 'Search', '$location', '$scope', '$rootScope', function (SearchForms, Search, $location, $scope, $rootScope) {
 
 		var path = 'users';
 		var nextPageUrl;
 		populatePath();
-
+		
 		$scope.$on('$locationChangeSuccess', function () {
 			populatePath();
 		});
@@ -19,6 +19,11 @@ angular.module('coolest')
 		};
 		$scope.clear = function () {
 			$scope.formValue = {};
+		};
+		$scope.fetchDetail = function (id) {
+			Search.get('/api/' + path + '/' + id, '', {}).then(function (data) {
+				$rootScope.detail = data;
+			});
 		};
 
 		// trigger a event when the scroll bar scroll to the bottom
@@ -41,6 +46,8 @@ angular.module('coolest')
 			path = urlArray[2];
 			$scope.searchFields = SearchForms[path].searchFileds;
 			$scope.showFileds = SearchForms[path].showFileds;
+			$scope.title = path.toUpperCase();
 			$scope.fetchedData = {};
+			$rootScope.path = path;
 		}
 	}]);

@@ -6,19 +6,21 @@
     <script type="text/javascript" src="./component/angular/angular.min.js"></script>
     <script type="text/javascript" src="./component/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="./component/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="./component/angular-ui-grid/ui-grid.min.js"></script>
     <link rel="stylesheet" type="text/css" href="./component/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="./component/angular-ui-grid/ui-grid.min.css">
 
     <!--controller js from madison-->
     <script type="text/javascript" src="./script/controller/IndexController.js"></script>
     <script type="text/javascript" src="./script/controller/SidebarController.js"></script>
     <script type="text/javascript" src="./script/controller/SearchController.js"></script>
     <script type="text/javascript" src="./script/controller/TopbarController.js"></script>
+    <script type="text/javascript" src="./script/controller/ModelController.js"></script>
 
     <!--service js from madison-->
     <script type="text/javascript" src="./script/service/SearchForms.js"></script>
     <script type="text/javascript" src="./script/service/Resource.js"></script>
+
+    <!--model js from madison-->
+    <script type="text/javascript" src="./script/model/model.js"></script>
 
     <!--css from madison-->
     <link rel="stylesheet" type="text/css" href="./style/dist.min.css">
@@ -29,5 +31,6 @@
         <div ng-include="nav"></div>
         <div ng-include="main"></div>
     </div>
+    <div ng-include="'./view/model.html'"></div>
 </body>
 </html>

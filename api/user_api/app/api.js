@@ -1,10 +1,10 @@
 'use strict';
 
 var nconf = require('nconf'),
-  path = require('path'),
-  bodyParser = require('body-parser'),
-  express = require('express'),
-  swagger = require('swagger-node-express');
+	path = require('path'),
+	bodyParser = require('body-parser'),
+	express = require('express'),
+	swagger = require('swagger-node-express');
 
 
 var user = require('./controller/user.js');
@@ -19,21 +19,23 @@ nconf.file('Base', { file: configPath });
 var app = module.exports = express();
 app.use(bodyParser.json({ limit: '1mb' }));
 app.use(bodyParser.urlencoded({
-  extended: true
+	extended: true
 }));
 
 swagger.setAppHandler(app);
 
 swagger.configureSwaggerPaths('', '/api-docs/user', '');
 swagger.setHeaders = function setHeaders(res) {
-  res.header('Access-Control-Allow-Headers', 'Content-Type, X-API-KEY');
-  res.header('Content-Type', 'application/json; charset=utf-8');
+	res.header('Access-Control-Allow-Headers', 'Content-Type, X-API-KEY');
+	res.header('Content-Type', 'application/json; charset=utf-8');
 };
 
 
 
 
 module.exports.initalize = function (callback) {
-  swagger.addGet(user.findUser);
-  callback(swagger);
+	swagger
+		.addGet(user.findUser)
+		.addGet(user.findUserById);
+	callback(swagger);
 };

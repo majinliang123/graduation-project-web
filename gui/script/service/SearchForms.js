@@ -5,10 +5,10 @@ angular.module('coolest')
 		return {
 			'users': {
 				'searchFileds': [
-					{ 'name': 'username', 'displayName': 'User Name', placeholder: 'Erica Cunningham' },
-					{ 'name': 'sex', 'displayName': 'Sex', placeholder: 'female' },
-					{ 'name': 'age', 'displayName': 'Age', placeholder: '12' },
-					{ 'name': 'email', 'displayName': 'Email', placeholder: 'email' }
+					{ 'name': 'username', 'displayName': 'User Name' },
+					{ 'name': 'sex', 'displayName': 'Sex' },
+					{ 'name': 'age', 'displayName': 'Age' },
+					{ 'name': 'email', 'displayName': 'Email' }
 				],
 				'showFileds': [
 					{ 'name': 'username', 'displayName': 'User Name' },

@@ -4,6 +4,7 @@ var swagger = require('swagger-node-express'),
 	nconf = require('nconf'),
 	path = require('path'),
 	hal = require('hal'),
+	ObjectID = require('mongodb').ObjectID,
 	winston = require('winston');
 
 var paginator = require('../service/paginator.js');
@@ -57,7 +58,7 @@ function findUserHandler(req, res) {
 				resource.link('Next', 'api/users?lastId=' + docs[docs.length - 1]._id);
 				resource.embed('user', docs);
 				res.json(resource);
-			}else{
+			} else {
 				res.json({});
 			}
 
@@ -65,6 +66,31 @@ function findUserHandler(req, res) {
 		}
 	});
 }
+
+
+function findUserByIdHandler(req, res) {
+	logger.info('handling by findUserByIdHandler');
+	var database = req.database;
+
+	if (req.params.id) {
+		var _id = new ObjectID(req.params.id);
+	}
+
+	var params = { '_id': _id };
+	database.collection(users_collection).find(params).toArray(function (err, docs) {
+		if (!err) {
+			logger.info('Searching, query params is: ' + JSON.stringify(params));
+			if (docs.length === 1) {
+				var resource = new hal.Resource(docs[0], '/api/users/' + docs[0]._id);
+				res.json(resource);
+			} else {
+				res.json({});
+			}
+		}
+		logger.info('Search successfully, results are: ' + JSON.stringify(docs));
+	});
+}
+
 
 module.exports.findUser = {
 	'spec': {
@@ -82,4 +108,19 @@ module.exports.findUser = {
 		'nickname': 'findUserHandler'
 	},
 	'action': findUserHandler
+};
+
+module.exports.findUserById = {
+	'spec': {
+		'description': 'Operations about user',
+		'path': '/users/{id}',
+		'notes': 'Returns a user info',
+		'summary': 'Find user by info',
+		'method': 'GET',
+		'parameters': [
+			swagger.pathParam('id', 'ObjectID of a user', 'string')],
+		'type': 'User',
+		'nickname': 'findUserByIdHandler'
+	},
+	'action': findUserByIdHandler
 };

@@ -1,5 +1,5 @@
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main container" ng-controller="SearchController">
-  <h1 class="page-header">Search Field
+  <h1 class="page-header">{{title}}
     <button class="btn btn-default"><span class="glyphicon glyphicon-remove-sign" ng-click="clear()"></span></button>
     <button class="btn btn-default"><span class="glyphicon glyphicon-search" ng-click="search()"></span></button>
   </h1>
@@ -21,6 +21,7 @@
       <tbody>
         <tr ng-repeat="item in fetchedData">
           <td ng-repeat="showField in showFileds">{{item[showField.name]}}</td>
+          <td><a ng-click="fetchDetail(item._id)" data-toggle="modal" data-target="#detailModal"><span class="glyphicon glyphicon-folder-open"></span></a></td>
         </tr>
       </tbody>
     </table>

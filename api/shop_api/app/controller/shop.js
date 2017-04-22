@@ -4,6 +4,7 @@ var swagger = require('swagger-node-express'),
 	nconf = require('nconf'),
 	path = require('path'),
 	hal = require('hal'),
+	ObjectID = require('mongodb').ObjectID,
 	winston = require('winston');
 
 var paginator = require('../service/paginator.js');
@@ -63,6 +64,30 @@ function findShopHandler(req, res) {
 	});
 }
 
+
+function findShopByIdHandler(req, res) {
+	logger.info('handling by findShopByIdHandler');
+	var database = req.database;
+
+	if (req.params.id) {
+		var _id = new ObjectID(req.params.id);
+	}
+
+	var params = { '_id': _id };
+	database.collection(shops_collection).find(params).toArray(function (err, docs) {
+		if (!err) {
+			logger.info('Searching, query params is: ' + JSON.stringify(params));
+			if (docs.length === 1) {
+				var resource = new hal.Resource(docs[0], '/api/shops/' + docs[0]._id);
+				res.json(resource);
+			} else {
+				res.json({});
+			}
+		}
+		logger.info('Search successfully, results are: ' + JSON.stringify(docs));
+	});
+}
+
 module.exports.findShop = {
 	'spec': {
 		'description': 'Operations about shop',
@@ -78,4 +103,19 @@ module.exports.findShop = {
 		'nickname': 'findShopHandler'
 	},
 	'action': findShopHandler
+};
+
+module.exports.findShopById = {
+	'spec': {
+		'description': 'Operations about user',
+		'path': '/shops/{id}',
+		'notes': 'Returns a shop info',
+		'summary': 'Find shop by info',
+		'method': 'GET',
+		'parameters': [
+			swagger.pathParam('id', 'ObjectID of a shop', 'string')],
+		'type': 'Shop',
+		'nickname': 'findShopByIdHandler'
+	},
+	'action': findShopByIdHandler
 };
