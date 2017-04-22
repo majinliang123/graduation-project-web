@@ -16,7 +16,7 @@ module.exports = function(apis){
         var apiModule = require(manifest.resolvedPath + '/' + manifest.main);
         if(apiModule.initalize){
             apiModule.initalize(function(swagger){
-                swagger.configure('/', '0.1');
+                swagger.configure('http://localhost:8080/api', '0.1');
             });
             app.use(apiModule);
         }

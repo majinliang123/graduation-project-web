@@ -1,0 +1,10 @@
+{
+    "collectoin": "shops",
+    "logging": {
+        "logToConsole": true,
+        "file": {
+            "path":"logs/shop_api.log",
+            "logLevel": "info"
+        }
+    }
+}

@@ -7,7 +7,7 @@ var nconf = require('nconf'),
   swagger = require('swagger-node-express');
 
 
-var user = require('./controller/user.js');
+var shop = require('./controller/shop.js');
 
 
 
@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({
 
 swagger.setAppHandler(app);
 
-swagger.configureSwaggerPaths('', '/api-docs/user', '');
+swagger.configureSwaggerPaths('', '/api-docs/shop', '');
 swagger.setHeaders = function setHeaders(res) {
   res.header('Access-Control-Allow-Headers', 'Content-Type, X-API-KEY');
   res.header('Content-Type', 'application/json; charset=utf-8');
@@ -34,6 +34,6 @@ swagger.setHeaders = function setHeaders(res) {
 
 
 module.exports.initalize = function (callback) {
-  swagger.addGet(user.findUser);
+  swagger.addGet(shop.findShop);
   callback(swagger);
 };

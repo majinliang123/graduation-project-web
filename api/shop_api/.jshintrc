@@ -173,7 +173,6 @@
     "globals": {
         "angular": true,
         "window": true,
-        "document": true,
         "require": true,
         "$": true
     }
