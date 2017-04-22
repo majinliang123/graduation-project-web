@@ -11,7 +11,7 @@ angular.module('coolest')
 					url: url,
 					params: params
 				}).then(function (data) {
-					deferred.resolve(data);
+					deferred.resolve(data.data);
 				}, function (data, status) {
 					deferred.reject(data, status);
 				});

@@ -3,7 +3,7 @@
 angular.module('coolest')
 	.controller('SearchController', ['SearchForms', 'Search', '$location', '$scope', function (SearchForms, Search, $location, $scope) {
 		// var path = $location.url();
-		var path = 'user';
+		var path = 'shops';
 		var nextPageUrl;
 		$scope.formValue = {};
 		$scope.searchFields = SearchForms[path].searchFileds;
@@ -12,9 +12,10 @@ angular.module('coolest')
 
 
 		$scope.search = function () {
-			Search.get('/api/user', '', $scope.formValue).then(function (data) {
-				$scope.fetchedData = data.data._embedded.users;
-				nextPageUrl = data.data._links.Next.href;
+			Search.get('/api/' + path, '', $scope.formValue).then(function (data) {
+				$scope.fetchedData = data._embedded[path];
+				console.log(data);
+				nextPageUrl = data._links.Next.href;
 			});
 		};
 		$scope.clear = function () {
@@ -30,8 +31,8 @@ angular.module('coolest')
 
 		function fetchNextPage() {
 			Search.get(nextPageUrl, '', $scope.formValue).then(function (data) {
-				$scope.fetchedData = $scope.fetchedData.concat(data.data._embedded.users);
-				nextPageUrl =  data.data._links.Next.href;
+				$scope.fetchedData = $scope.fetchedData.concat(data._embedded[path]);
+				nextPageUrl = data._links.Next.href;
 			});
 		}
 	}]);

@@ -11,7 +11,7 @@ var paginator = require('../service/paginator.js');
 // init config
 var configPath = path.resolve(__dirname + '/../config/globalConfig.json');
 nconf.file('Base', { file: configPath });
-var users_collection = nconf.get('collectoin');
+var shops_collection = nconf.get('collectoin');
 var logger = new (winston.Logger)({
 	transports: [
 		new (winston.transports.Console)(),
@@ -20,24 +20,21 @@ var logger = new (winston.Logger)({
 });
 
 
-function findUserHandler(req, res) {
-	logger.info('handling by findUserHandler');
+function findShopHandler(req, res) {
+	logger.info('handling by findShopHandler');
 	var database = req.database;
 	var query = {};
 	var params = {};
 	var pageSize = 100;
 
-	if (req.query.username) {
-		query.username = req.query.username;
+	if (req.query.shopname) {
+		query.shopname = req.query.shopname;
 	}
-	if (req.query.age) {
-		query.age = parseInt(req.query.age, 10);
+	if (req.query.boss) {
+		query.boss = parseInt(req.query.boss, 10);
 	}
-	if (req.query.sex) {
-		query.sex = req.query.sex;
-	}
-	if (req.query.email) {
-		query.email = req.query.email;
+	if (req.query.goods) {
+		query.goods = req.query.goods;
 	}
 
 	if (req.query.lastId) {
@@ -45,7 +42,7 @@ function findUserHandler(req, res) {
 	}
 
 	params.returnField = {};
-	params.collection = users_collection;
+	params.collection = shops_collection;
 	params.pageSize = pageSize;
 	params.query = query;
 
@@ -53,9 +50,9 @@ function findUserHandler(req, res) {
 		if (!err) {
 			logger.info('Searching, query params is: ' + JSON.stringify(params));
 			if (docs.length > 0) {
-				var resource = new hal.Resource({ 'pageSize': pageSize }, 'users?firstId=' + docs[0]._id);
-				resource.link('Next', 'api/users?lastId=' + docs[docs.length - 1]._id);
-				resource.embed('user', docs);
+				var resource = new hal.Resource({ 'pageSize': pageSize }, 'shops?firstId=' + docs[0]._id);
+				resource.link('Next', 'api/shops?lastId=' + docs[docs.length - 1]._id);
+				resource.embed('shops', docs);
 				res.json(resource);
 			}else{
 				res.json({});
@@ -66,20 +63,19 @@ function findUserHandler(req, res) {
 	});
 }
 
-module.exports.findUser = {
+module.exports.findShop = {
 	'spec': {
-		'description': 'Operations about user',
-		'path': '/users',
-		'notes': 'Returns a user info',
-		'summary': 'Find user by info',
+		'description': 'Operations about shop',
+		'path': '/shops',
+		'notes': 'Returns a shop info',
+		'summary': 'Find shop by info',
 		'method': 'GET',
 		'parameters': [
-			swagger.queryParam('username', 'username of a user', 'string'),
-			swagger.queryParam('age', 'age of a user', 'int'),
-			swagger.queryParam('sex', 'sex of a user', 'string'),
-			swagger.queryParam('email', 'email of a user', 'string')],
-		'type': 'User',
-		'nickname': 'findUserHandler'
+			swagger.queryParam('shopname', 'shopname of a shop', 'string'),
+			swagger.queryParam('boss', 'boss of a shop', 'string'),
+			swagger.queryParam('goods', 'goods of a shop', 'string')],
+		'type': 'Shop',
+		'nickname': 'findShopHandler'
 	},
-	'action': findUserHandler
+	'action': findShopHandler
 };
