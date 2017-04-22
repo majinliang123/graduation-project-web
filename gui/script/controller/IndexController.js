@@ -10,9 +10,9 @@ angular.module('coolest', [], function ($locationProvider) {
 
 		$scope.main = './view/welcome.html';
 		$scope.nav = './view/nav.html';
-		$scope.$on('$locationChangeStart', function (event, newUrl) {
+		$scope.$on('$locationChangeStart', function () {
 			var url = $location.url();
-			var urlArray = url.split("/");
+			var urlArray = url.split('/');
 			var path = urlArray[2];
 			if (path) {
 				$scope.main = './view/main.html';

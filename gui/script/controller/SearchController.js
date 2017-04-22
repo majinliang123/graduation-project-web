@@ -7,7 +7,7 @@ angular.module('coolest')
 		var nextPageUrl;
 		populatePath();
 
-		$scope.$on('$locationChangeSuccess', function (event, newUrl) {
+		$scope.$on('$locationChangeSuccess', function () {
 			populatePath();
 		});
 
@@ -37,7 +37,7 @@ angular.module('coolest')
 
 		function populatePath() {
 			var url = $location.url();
-			var urlArray = url.split("/");
+			var urlArray = url.split('/');
 			path = urlArray[2];
 			$scope.searchFields = SearchForms[path].searchFileds;
 			$scope.showFileds = SearchForms[path].showFileds;
