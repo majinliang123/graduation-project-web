@@ -4,12 +4,12 @@ node_js:
   - "7"
 
 install: 
-  - cd /gui && npm install && bower install 
-  - cd /container && npm install
-  - cd /api/user_api && npm install
-  - cd /api/shop_api && npm install
+  - cd gui && npm install && bower install 
+  - cd ../container && npm install
+  - cd ../api/user_api && npm install
+  - cd ../api/shop_api && npm install
 script: 
   - cd /gui && grunt jshint 
-  - cd /container && grunt jshint
-  - cd /api/user_api && grunt jshint
-  - cd /api/shop_api && grunt jshint 
+  - cd ../container && grunt jshint
+  - cd ../api/user_api && grunt jshint
+  - cd ../api/shop_api && grunt jshint 
