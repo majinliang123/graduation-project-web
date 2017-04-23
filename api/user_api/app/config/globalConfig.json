@@ -3,8 +3,9 @@
     "logging": {
         "logToConsole": true,
         "file": {
-            "path":"logs/user_api.log",
+            "path": "logs/user_api.log",
             "logLevel": "info"
         }
-    }
+    },
+    "pageSize": 100
 }

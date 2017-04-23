@@ -4,6 +4,7 @@ angular.module('coolest')
 	.controller('SearchController', ['SearchForms', 'Search', '$location', '$scope', '$rootScope', function (SearchForms, Search, $location, $scope, $rootScope) {
 
 		var path = 'users';
+		var pagination = false;
 		var nextPageUrl;
 		populatePath();
 		
@@ -14,7 +15,9 @@ angular.module('coolest')
 		$scope.search = function () {
 			Search.get('/api/' + path, '', $scope.formValue).then(function (data) {
 				$scope.fetchedData = data._embedded[path];
-				nextPageUrl = data._links.Next.href;
+				if(pagination){
+					nextPageUrl = data._links.Next.href;
+				}
 			});
 		};
 		$scope.clear = function () {
@@ -28,7 +31,7 @@ angular.module('coolest')
 
 		// trigger a event when the scroll bar scroll to the bottom
 		$(document).scroll(function () {
-			if ($(document).scrollTop() / $(document).height() >= 0.8) {
+			if ($(document).scrollTop() / $(document).height() >= 0.8 && pagination) {
 				fetchNextPage();
 			}
 		});
@@ -46,6 +49,7 @@ angular.module('coolest')
 			path = urlArray[2];
 			$scope.searchFields = SearchForms[path].searchFileds;
 			$scope.showFileds = SearchForms[path].showFileds;
+			pagination = SearchForms[path].pagination;
 			$scope.title = path.toUpperCase();
 			$scope.fetchedData = {};
 			$rootScope.path = path;

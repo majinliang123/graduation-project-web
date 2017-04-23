@@ -13,6 +13,7 @@ var paginator = require('../service/paginator.js');
 var configPath = path.resolve(__dirname + '/../config/globalConfig.json');
 nconf.file('Base', { file: configPath });
 var users_collection = nconf.get('collectoin');
+var pageSize = nconf.get('pageSize');
 var logger = new (winston.Logger)({
 	transports: [
 		new (winston.transports.Console)(),
@@ -26,7 +27,6 @@ function findUserHandler(req, res) {
 	var database = req.database;
 	var query = {};
 	var params = {};
-	var pageSize = 100;
 
 	if (req.query.username) {
 		query.username = req.query.username;
@@ -55,7 +55,7 @@ function findUserHandler(req, res) {
 			logger.info('Searching, query params is: ' + JSON.stringify(params));
 			if (docs.length > 0) {
 				var resource = new hal.Resource({ 'pageSize': pageSize }, 'users?firstId=' + docs[0]._id);
-				resource.link('Next', 'api/users?lastId=' + docs[docs.length - 1]._id);
+				resource.link('Next', '/api/users?lastId=' + docs[docs.length - 1]._id);
 				resource.embed('user', docs);
 				res.json(resource);
 			} else {

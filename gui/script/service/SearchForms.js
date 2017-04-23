@@ -4,6 +4,7 @@ angular.module('coolest')
 	.factory('SearchForms', [function () {
 		return {
 			'users': {
+				'pagination': true,
 				'searchFileds': [
 					{ 'name': 'username', 'displayName': 'User Name' },
 					{ 'name': 'sex', 'displayName': 'Sex' },
@@ -18,6 +19,7 @@ angular.module('coolest')
 				]
 			},
 			'shops': {
+				'pagination': false,
 				'searchFileds': [
 					{ 'name': 'shopname', 'displayName': 'Shop Name' },
 					{ 'name': 'boss', 'displayName': 'Boss' }
