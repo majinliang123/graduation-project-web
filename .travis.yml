@@ -8,8 +8,10 @@ install:
   - cd ../container && npm install
   - cd ../api/user_api && npm install
   - cd ../shop_api && npm install
+  - cd ../log_api && npm install
 script: 
   - cd ../../gui && grunt jshint && grunt less && grunt cssmin
   - cd ../container && grunt jshint
   - cd ../api/user_api && grunt jshint
   - cd ../shop_api && grunt jshint 
+  - cd ../log_api && grunt jshint
