@@ -1,0 +1,5 @@
+{
+    "name": "log_api",
+    "main": "./app/api.js",
+    "description": "the api is using to search log info"
+}

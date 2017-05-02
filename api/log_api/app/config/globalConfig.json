@@ -1,0 +1,11 @@
+{
+    "collectoin": "logs",
+    "logging": {
+        "logToConsole": true,
+        "file": {
+            "path": "logs/log_api.log",
+            "logLevel": "info"
+        }
+    },
+    "pageSize": 100
+}

@@ -19,6 +19,16 @@ angular.module('coolest')
 					{ 'name': 'boss', 'displayName': 'Boss', type: 'text' },
 					{ 'name': 'goods', 'displayName': 'Goods', type: 'array' }
 				]
+			},
+			'logs': {
+				'title': { 'name': '_id', 'displayName': 'Log Id' },
+				'detail': [
+					{ 'name': 'shop', 'displayName': 'Shop Name', type: 'text' },
+					{ 'name': 'username', 'displayName': 'User Name', type: 'text' },
+					{ 'name': 'sex', 'displayName': 'Sex', type: 'text' },
+					{ 'name': 'age', 'displayName': 'Age', type: 'text' },
+					{ 'name': 'date', 'displayName': 'Date', type: 'text' },
+				]
 			}
 		};
 	}]);

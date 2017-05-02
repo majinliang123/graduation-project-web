@@ -1,0 +1,41 @@
+'use strict';
+
+var nconf = require('nconf'),
+	path = require('path'),
+	bodyParser = require('body-parser'),
+	express = require('express'),
+	swagger = require('swagger-node-express');
+
+
+var log = require('./controller/log.js');
+
+
+
+// init config
+var configPath = path.resolve(__dirname + '/config/globalConfig.json');
+nconf.file('Base', { file: configPath });
+
+
+var app = module.exports = express();
+app.use(bodyParser.json({ limit: '1mb' }));
+app.use(bodyParser.urlencoded({
+	extended: true
+}));
+
+swagger.setAppHandler(app);
+
+swagger.configureSwaggerPaths('', '/api-docs/log', '');
+swagger.setHeaders = function setHeaders(res) {
+	res.header('Access-Control-Allow-Headers', 'Content-Type, X-API-KEY');
+	res.header('Content-Type', 'application/json; charset=utf-8');
+};
+
+
+
+
+module.exports.initalize = function (callback) {
+	swagger
+		.addGet(log.findLog)
+		.addGet(log.findLogById);
+	callback(swagger);
+};
