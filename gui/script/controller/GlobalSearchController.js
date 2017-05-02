@@ -5,7 +5,7 @@ angular.module('coolest')
         $scope.globalSearch = '';
         $scope.items = {};
         var globalSearchUrl = '/api/search/';
-        $scope.$watch('globalSearch', function (newVal, oldVal) {
+        $scope.$watch('globalSearch', function (newVal) {
             if (newVal) {
                 Search.get(globalSearchUrl + newVal, '', '').then(function (data) {
                     $scope.items = data._embedded.hits;

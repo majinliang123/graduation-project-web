@@ -4,7 +4,6 @@ var swagger = require('swagger-node-express'),
 	nconf = require('nconf'),
 	path = require('path'),
 	hal = require('hal'),
-	ObjectID = require('mongodb').ObjectID,
 	winston = require('winston');
 
 var paginator = require('../service/paginator.js');
@@ -13,7 +12,6 @@ var paginator = require('../service/paginator.js');
 var configPath = path.resolve(__dirname + '/../config/globalConfig.json');
 nconf.file('Base', { file: configPath });
 var users_collection = nconf.get('analy_collectoin');
-var pageSize = nconf.get('pageSize');
 var logger = new (winston.Logger)({
 	transports: [
 		new (winston.transports.Console)(),

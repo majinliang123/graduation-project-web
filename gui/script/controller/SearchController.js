@@ -83,5 +83,5 @@ angular.module('coolest')
 					nextPageUrl = data._links.Next.href;
 				}
 			});
-		};
+		}
 	}]);
