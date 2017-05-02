@@ -7,13 +7,10 @@ var swagger = require('swagger-node-express'),
     Q = require('q'),
     winston = require('winston');
 
-var paginator = require('../service/paginator.js');
 
 // init config
 var configPath = path.resolve(__dirname + '/../config/globalConfig.json');
 nconf.file('Base', { file: configPath });
-var logs_collection = nconf.get('collectoin');
-var pageSize = nconf.get('pageSize');
 var logger = new (winston.Logger)({
     transports: [
         new (winston.transports.Console)(),
@@ -25,7 +22,6 @@ function searchHandler(req, res) {
     logger.info('handling by searchHandler');
 
     var esClient = req.esClient;
-    var database = req.database;
     var item = req.params.item;
 
     var hits = [];

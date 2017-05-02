@@ -6,7 +6,6 @@ var swagger = require('swagger-node-express'),
 	hal = require('hal'),
 	winston = require('winston');
 
-var paginator = require('../service/paginator.js');
 
 // init config
 var configPath = path.resolve(__dirname + '/../config/globalConfig.json');

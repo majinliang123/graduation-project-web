@@ -26,7 +26,7 @@ angular.module('coolest')
 				$rootScope.detail = data;
 				if (analyze) {
 					Search.get('/api/' + analyzePath + '/', $rootScope.detail[analyzeWord], {}).then(function (data) {
-						analyzeField.forEach(function(element){
+						analyzeField.forEach(function (element) {
 							$rootScope.detail[element] = data[element];
 						});
 					});
@@ -58,7 +58,9 @@ angular.module('coolest')
 				$scope.fetchedData = {};
 				var queryParams = $location.search();
 				for (var m in queryParams) {
-					$scope.formValue[m] = queryParams[m];
+					if (queryParams.hasOwnProperty(m)) {
+						$scope.formValue[m] = queryParams[m];
+					}
 				}
 				search();
 			} else {
