@@ -12,7 +12,7 @@ var paginator = require('../service/paginator.js');
 // init config
 var configPath = path.resolve(__dirname + '/../config/globalConfig.json');
 nconf.file('Base', { file: configPath });
-var users_collection = nconf.get('collectoin');
+var logs_collection = nconf.get('collectoin');
 var pageSize = nconf.get('pageSize');
 var logger = new (winston.Logger)({
 	transports: [
@@ -22,23 +22,23 @@ var logger = new (winston.Logger)({
 });
 
 
-function findUserHandler(req, res) {
-	logger.info('handling by findUserHandler');
+function findLogHandler(req, res) {
+	logger.info('handling by findLogHandler');
 	var database = req.database;
 	var query = {};
 	var params = {};
 
-	if (req.query.username) {
-		query.username = req.query.username;
+	if (req.query.shop) {
+		query.shop = req.query.shop;
 	}
 	if (req.query.age) {
 		query.age = parseInt(req.query.age, 10);
 	}
+	if (req.query.username) {
+		query.username = req.query.username;
+	}
 	if (req.query.sex) {
 		query.sex = req.query.sex;
-	}
-	if (req.query.email) {
-		query.email = req.query.email;
 	}
 
 	if (req.query.lastId) {
@@ -46,7 +46,7 @@ function findUserHandler(req, res) {
 	}
 
 	params.returnField = {};
-	params.collection = users_collection;
+	params.collection = logs_collection;
 	params.pageSize = pageSize;
 	params.query = query;
 
@@ -54,9 +54,9 @@ function findUserHandler(req, res) {
 		if (!err) {
 			logger.info('Searching, query params is: ' + JSON.stringify(params));
 			if (docs.length > 0) {
-				var resource = new hal.Resource({ 'pageSize': pageSize }, 'users?firstId=' + docs[0]._id);
-				resource.link('Next', '/api/users?lastId=' + docs[docs.length - 1]._id);
-				resource.embed('user', docs);
+				var resource = new hal.Resource({ 'pageSize': pageSize }, 'logs?firstId=' + docs[0]._id);
+				resource.link('Next', '/api/logs?lastId=' + docs[docs.length - 1]._id);
+				resource.embed('logs', docs);
 				res.json(resource);
 			} else {
 				res.json({});
@@ -68,8 +68,8 @@ function findUserHandler(req, res) {
 }
 
 
-function findUserByIdHandler(req, res) {
-	logger.info('handling by findUserByIdHandler');
+function findLogByIdHandler(req, res) {
+	logger.info('handling by findLogByIdHandler');
 	var database = req.database;
 
 	if (req.params.id) {
@@ -77,11 +77,11 @@ function findUserByIdHandler(req, res) {
 	}
 
 	var params = { '_id': _id };
-	database.collection(users_collection).find(params).toArray(function (err, docs) {
+	database.collection(logs_collection).find(params).toArray(function (err, docs) {
 		if (!err) {
 			logger.info('Searching, query params is: ' + JSON.stringify(params));
 			if (docs.length === 1) {
-				var resource = new hal.Resource(docs[0], '/api/users/' + docs[0]._id);
+				var resource = new hal.Resource(docs[0], '/api/logs/' + docs[0]._id);
 				res.json(resource);
 			} else {
 				res.json({});
@@ -92,35 +92,35 @@ function findUserByIdHandler(req, res) {
 }
 
 
-module.exports.findUser = {
+module.exports.findLog = {
 	'spec': {
-		'description': 'Operations about user',
-		'path': '/users',
-		'notes': 'Returns a user info',
-		'summary': 'Find user by info',
+		'description': 'Operations about log',
+		'path': '/logs',
+		'notes': 'Returns a log info',
+		'summary': 'Find log by info',
 		'method': 'GET',
 		'parameters': [
-			swagger.queryParam('username', 'username of a user', 'string'),
-			swagger.queryParam('age', 'age of a user', 'int'),
-			swagger.queryParam('sex', 'sex of a user', 'string'),
-			swagger.queryParam('email', 'email of a user', 'string')],
-		'type': 'User',
-		'nickname': 'findUserHandler'
+			swagger.queryParam('shop', 'shop of a log', 'string'),
+			swagger.queryParam('age', 'age of a log', 'int'),
+			swagger.queryParam('sex', 'sex of a log', 'string'),
+			swagger.queryParam('username', 'username of a log', 'string')],
+		'type': 'Log',
+		'nickname': 'findLogHandler'
 	},
-	'action': findUserHandler
+	'action': findLogHandler
 };
 
-module.exports.findUserById = {
+module.exports.findLogById = {
 	'spec': {
-		'description': 'Operations about user',
-		'path': '/users/{id}',
-		'notes': 'Returns a user info',
-		'summary': 'Find user by info',
+		'description': 'Operations about log',
+		'path': '/logs/{id}',
+		'notes': 'Returns a log info',
+		'summary': 'Find log by info',
 		'method': 'GET',
 		'parameters': [
-			swagger.pathParam('id', 'ObjectID of a user', 'string')],
-		'type': 'User',
-		'nickname': 'findUserByIdHandler'
+			swagger.pathParam('id', 'ObjectID of a log', 'string')],
+		'type': 'Log',
+		'nickname': 'findLogByIdHandler'
 	},
-	'action': findUserByIdHandler
+	'action': findLogByIdHandler
 };

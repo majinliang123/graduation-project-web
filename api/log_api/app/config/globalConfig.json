@@ -1,10 +1,9 @@
 {
-    "collectoin": "users",
-    "analy_collectoin": "user_analyse",
+    "collectoin": "logs",
     "logging": {
         "logToConsole": true,
         "file": {
-            "path": "logs/user_api.log",
+            "path": "logs/log_api.log",
             "logLevel": "info"
         }
     },

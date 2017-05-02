@@ -138,7 +138,7 @@ connectToDB()
 
     }).
     fail(function (err) {
-        ogger.info('Error initializing Coolest');
+        logger.info('Error initializing Coolest');
     });
 
 

@@ -6,5 +6,4 @@ Using Tech:
  3) jquery
  4) node.js
  5) mongoDB
- 6) Spark
- 7) ElasticSearch
+ 6) ElasticSearch
