@@ -5,6 +5,10 @@ angular.module('coolest')
 		return {
 			'users': {
 				'pagination': true,
+				'analyze': true,
+				'analyzePath': 'userAnaly',
+				'analyzeWord':'username',
+				'analyzeField':['count', 'shop'],
 				'searchFileds': [
 					{ 'name': 'username', 'displayName': 'User Name' },
 					{ 'name': 'sex', 'displayName': 'Sex' },
@@ -20,6 +24,7 @@ angular.module('coolest')
 			},
 			'shops': {
 				'pagination': false,
+				'analyze': false,
 				'searchFileds': [
 					{ 'name': 'shopname', 'displayName': 'Shop Name' },
 					{ 'name': 'boss', 'displayName': 'Boss' }
@@ -31,11 +36,12 @@ angular.module('coolest')
 			},
 			'logs': {
 				'pagination': true,
+				'analyze': false,
 				'searchFileds': [
 					{ 'name': 'username', 'displayName': 'User Name' },
 					{ 'name': 'sex', 'displayName': 'Sex' },
 					{ 'name': 'age', 'displayName': 'Age' },
-					{ 'name': 'shopname', 'displayName': 'Shop Name' }
+					{ 'name': 'shop', 'displayName': 'Shop Name' }
 				],
 				'showFileds': [
 					{ 'name': 'username', 'displayName': 'User Name' },

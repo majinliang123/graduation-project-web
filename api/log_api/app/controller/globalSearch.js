@@ -142,7 +142,7 @@ module.exports.search = {
         'parameters': [
             swagger.pathParam('item', 'item of a document', 'string')],
         'type': 'Log',
-        'nickname': 'findLogByIdHandler'
+        'nickname': 'findLogHandler'
     },
     'action': searchHandler
 };

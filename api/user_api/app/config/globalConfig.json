@@ -1,5 +1,6 @@
 {
     "collectoin": "users",
+    "analy_collectoin": "user_analyse",
     "logging": {
         "logToConsole": true,
         "file": {

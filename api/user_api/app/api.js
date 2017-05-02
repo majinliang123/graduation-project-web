@@ -8,6 +8,7 @@ var nconf = require('nconf'),
 
 
 var user = require('./controller/user.js');
+var userAnaly = require('./controller/userAnaly.js');
 
 
 
@@ -36,6 +37,7 @@ swagger.setHeaders = function setHeaders(res) {
 module.exports.initalize = function (callback) {
 	swagger
 		.addGet(user.findUser)
-		.addGet(user.findUserById);
+		.addGet(user.findUserById)
+		.addGet(userAnaly.findUserByUsername);
 	callback(swagger);
 };

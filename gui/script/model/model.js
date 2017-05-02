@@ -9,7 +9,9 @@ angular.module('coolest')
 					{ 'name': 'username', 'displayName': 'User Name', type: 'text' },
 					{ 'name': 'sex', 'displayName': 'Sex', type: 'text' },
 					{ 'name': 'age', 'displayName': 'Age', type: 'text' },
-					{ 'name': 'email', 'displayName': 'Email', type: 'text' }
+					{ 'name': 'email', 'displayName': 'Email', type: 'text' },
+					{ 'name': 'count', 'displayName': 'count', type: 'text' },
+					{ 'name': 'shop', 'displayName': 'shop', type: 'text' }
 				]
 			},
 			'shops': {
