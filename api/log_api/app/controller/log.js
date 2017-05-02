@@ -28,17 +28,17 @@ function findLogHandler(req, res) {
 	var query = {};
 	var params = {};
 
-	if (req.query.username) {
-		query.username = req.query.username;
+	if (req.query.shop) {
+		query.shop = req.query.shop;
 	}
 	if (req.query.age) {
 		query.age = parseInt(req.query.age, 10);
 	}
+	if (req.query.username) {
+		query.username = req.query.username;
+	}
 	if (req.query.sex) {
 		query.sex = req.query.sex;
-	}
-	if (req.query.email) {
-		query.email = req.query.email;
 	}
 
 	if (req.query.lastId) {
@@ -100,10 +100,10 @@ module.exports.findLog = {
 		'summary': 'Find log by info',
 		'method': 'GET',
 		'parameters': [
-			swagger.queryParam('log', 'username of a user', 'string'),
-			swagger.queryParam('age', 'age of a user', 'int'),
-			swagger.queryParam('sex', 'sex of a user', 'string'),
-			swagger.queryParam('email', 'email of a user', 'string')],
+			swagger.queryParam('shop', 'shop of a log', 'string'),
+			swagger.queryParam('age', 'age of a log', 'int'),
+			swagger.queryParam('sex', 'sex of a log', 'string'),
+			swagger.queryParam('username', 'username of a log', 'string')],
 		'type': 'Log',
 		'nickname': 'findLogHandler'
 	},

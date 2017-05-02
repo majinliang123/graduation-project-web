@@ -8,6 +8,7 @@ var nconf = require('nconf'),
 
 
 var log = require('./controller/log.js');
+var globalSearch = require('./controller/globalSearch.js');
 
 
 
@@ -36,6 +37,7 @@ swagger.setHeaders = function setHeaders(res) {
 module.exports.initalize = function (callback) {
 	swagger
 		.addGet(log.findLog)
-		.addGet(log.findLogById);
+		.addGet(log.findLogById)
+		.addGet(globalSearch.search);
 	callback(swagger);
 };
