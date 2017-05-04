@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CoolestLogin', [])
-    .controller('LoginController', ['$scope', '$http', function ($scope, $http) {
+    .controller('LoginController', ['$scope', '$http', '$window', function ($scope, $http, $window) {
         $scope.username = '';
         $scope.password = '';
         $scope.submit = function () {
@@ -20,5 +20,9 @@ angular.module('CoolestLogin', [])
                 data: sendData,
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
             });
+            setTimeout(function () {
+                $window.location.href = '/gui';
+            }, 300);
+
         }
     }]);
