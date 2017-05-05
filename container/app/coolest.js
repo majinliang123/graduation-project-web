@@ -35,6 +35,8 @@ if (argv.env) {
 var configPath = path.resolve(__dirname + '/config/globalConfig.' + env + '.json');
 nconf.file('Base', { file: configPath });
 var port = nconf.get('port');
+var home = nconf.get('home');
+home = home + ':' + port;
 var logger = new (winston.Logger)({
     transports: [
         new (winston.transports.Console)(),
@@ -136,7 +138,7 @@ connectToDB()
                     logger.info('Discovered API: ' + manifest.name);
                 }
             });
-            app.use('/api', require('./service/api.js')(apiList));
+            app.use('/api', require('./service/api.js')(apiList, home));
         });
 
         app.use('/login', function (req, res) {

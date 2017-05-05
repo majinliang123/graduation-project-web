@@ -6,21 +6,21 @@ var express = require('express'),
 
 
 
-module.exports = function(apis){
+module.exports = function (apis, home) {
     var app = module.exports = express();
     app.use(bodyParser.urlencoded({
         extended: true
     }));
-    app.use('/docs', express.static(__dirname+'/../lib/swagger-ui'));
-    apis.forEach(function(manifest){
+    app.use('/docs', express.static(__dirname + '/../lib/swagger-ui'));
+    apis.forEach(function (manifest) {
         var apiModule = require(manifest.resolvedPath + '/' + manifest.main);
-        if(apiModule.initalize){
-            apiModule.initalize(function(swagger){
-                swagger.configure('http://localhost:8080/api', '0.1');
+        if (apiModule.initalize) {
+            apiModule.initalize(function (swagger) {
+                swagger.configure(home + '/api', '0.1');
             });
             app.use(apiModule);
         }
-        
+
     });
     return app;
 };
