@@ -1,6 +1,6 @@
 <div class="dropdown globalSearch" ng-controller="GlobalSearchController">
     <input type="text" class="form-control" data-toggle="dropdown" placeholder="Search..." ng-model="globalSearch">
-    <ul class="dropdown-menu">
+    <ul class="dropdown-menu" ng-if="globalSearch" style="right:auto;left:0">
         <li ng-repeat="item in items">
             <a href="/gui/users?username={{item._source.username}}" ng-if="item._type === 'users'">user--{{item._source.username}}</a>
             <a href="/gui/shops?shopname={{item._source.shopname}}" ng-if="item._type === 'shops'">shop--{{item._source.shopname}}</a>

@@ -14,6 +14,7 @@ var express = require("express"),
     argv = require('yargs').argv,
     MongoClient = require('mongodb').MongoClient;
 
+var grant = require('./service/grant.js');
 
 var app = express();
 app.use(express.static(path.join(__dirname, 'public')));
@@ -42,6 +43,7 @@ var logger = new (winston.Logger)({
 });
 var mongoDBUrl = nconf.get('mongoDBUrl');
 var elasticSearchUrl = nconf.get('elasticSearchUrl');
+var grantCollection = nconf.get('grantCollection');
 var database = {};
 var esClient;
 
@@ -59,7 +61,6 @@ connectToDB()
 
 
         // session authorization
-        /*
         app.use(session({
             secret: '12345',
             name: 'testapp',
@@ -74,26 +75,35 @@ connectToDB()
                     next();
                 }
                 else {
-                    res.redirect('/login.html');
+                    res.redirect('/login');
                 }
             } else if (req.session.user) {
                 next();
             }
         });
 
+        app.get('/logout', function (req, res) {
+            req.session.destroy(function (err) {
+                logger.info('logout successfully');
+                res.redirect('/login');
+            });
+        });
+
         app.post('/login', function (req, res) {
-            if (true) {
-                logger.info("login succeeds, will redirect to /");
-                logger.info("user name is: " + req.body.username);
-                var user = { 'username': 'love' };
-                req.session.user = user;
-                res.redirect('/index.html');
-            }
-            else {
-                logger.info("login failed, will redirect to /login");
-                res.redirect('/login.html');
-            }
-    });*/
+            grant.grant(req.database, req.body.username, req.body.password, grantCollection).then(function (access) {
+                if (access) {
+                    logger.info("login succeeds, will redirect to homepage");
+                    logger.info("user name is: " + req.body.username);
+                    var user = { 'username': req.body.username };
+                    req.session.user = user;
+                    res.redirect('/gui');
+                }
+                else {
+                    logger.info("login failed, will redirect to /login");
+                    res.redirect('/login');
+                }
+            });
+        });
 
 
         // init and run GUI
@@ -129,7 +139,9 @@ connectToDB()
             app.use('/api', require('./service/api.js')(apiList));
         });
 
-
+        app.use('/login', function (req, res) {
+            res.sendFile(__dirname + '/public/login.html');
+        });
 
         app.listen(port, function () {
             logger.info('coolest is started.');
