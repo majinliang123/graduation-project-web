@@ -1,6 +1,6 @@
 {
-    "home": "http://localhost/",
-    "port": 8080,
+    "home": "http://112.74.28.207",
+    "port": 8081,
     "guiPath": "../../gui",
     "apiPath": "../../api",
     "logging": {

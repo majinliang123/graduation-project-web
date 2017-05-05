@@ -1,5 +1,6 @@
 {
-    "port": 8080,
+    "home": "http://localhost",
+    "port": 8081,
     "guiPath": "../../gui",
     "apiPath": "../../api",
     "logging": {
@@ -9,6 +10,7 @@
             "logLevel": "info"
         }
     },
-    "mongoDBUrl": "mongodb://localhost:27017/coolest",
-    "elasticSearchUrl": "http://localhost:9200"
+    "grantCollection": "grant",
+    "mongoDBUrl": "mongodb://112.74.28.207/coolest",
+    "elasticSearchUrl": "http://112.74.73.233:9200"
 }
