@@ -7,5 +7,5 @@ angular.module('coolest')
 
         $scope.logout = function(){
             $window.location.href = '/logout';
-        }
+        };
     }]);
