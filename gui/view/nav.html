@@ -13,10 +13,9 @@
                 <li><a href="#">Home</a></li>
                 <li><a href="#">About</a></li>
                 <li class="dropdown">
-                    <a href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>User</a>
+                    <a href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>{{username}}</a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Action</a></li>
+                        <li><a ng-click="logout()">logout</a></li>
                     </ul>
                 </li>
             </ul>

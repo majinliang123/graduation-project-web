@@ -82,6 +82,13 @@ connectToDB()
             }
         });
 
+        app.get('/logout', function (req, res) {
+            req.session.destroy(function (err) {
+                logger.info('logout successfully');
+                res.redirect('/login');
+            });
+        });
+
         app.post('/login', function (req, res) {
             grant.grant(req.database, req.body.username, req.body.password, grantCollection).then(function (access) {
                 if (access) {

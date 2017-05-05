@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('CoolestLogin', [])
-    .controller('LoginController', ['$scope', '$http', '$window', function ($scope, $http, $window) {
+angular.module('CoolestLogin', ['ngCookies'])
+    .controller('LoginController', ['$scope', '$http', '$window', '$cookies', function ($scope, $http, $window, $cookies) {
         $scope.username = '';
         $scope.password = '';
         $scope.submit = function () {
@@ -22,6 +22,7 @@ angular.module('CoolestLogin', [])
             });
             setTimeout(function () {
                 $window.location.href = '/gui';
+                $cookies.put('username', $scope.username);
             }, 300);
 
         }
