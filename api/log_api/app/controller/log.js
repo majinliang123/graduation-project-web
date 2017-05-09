@@ -50,23 +50,70 @@ function findLogHandler(req, res) {
 	params.pageSize = pageSize;
 	params.query = query;
 
-	paginator.getPaginatedById(database, params, function (err, docs) {
-		if (!err) {
-			logger.info('Searching, query params is: ' + JSON.stringify(params));
-			if (docs.length > 0) {
-				var resource = new hal.Resource({ 'pageSize': pageSize }, 'logs?firstId=' + docs[0]._id);
-				resource.link('Next', '/api/logs?lastId=' + docs[docs.length - 1]._id);
-				resource.embed('logs', docs);
-				res.json(resource);
-			} else {
-				res.json({});
-			}
+	if (isEmpty(params.query)) {
+		paginator.getPaginatedById(database, params, function (err, docs) {
+			if (!err) {
+				logger.info('Searching, query params is: ' + JSON.stringify(params));
+				if (docs.length > 0) {
+					var resource = new hal.Resource({ 'pageSize': pageSize }, 'logs?firstId=' + docs[0]._id);
+					resource.link('Next', '/api/logs?lastId=' + docs[docs.length - 1]._id);
+					resource.embed('logs', docs);
+					res.json(resource);
+				} else {
+					res.json({});
+				}
 
-			logger.info('Search successfully, results are: ' + JSON.stringify(docs));
-		}
-	});
+				logger.info('Search successfully, results are: ' + JSON.stringify(docs));
+			}
+		});
+	} else {
+		getIdByES(req.esClient, params.query, function (hits) {
+			var queryId = hits.map(function (ele) {
+				return new ObjectID(ele._source.id);
+			});
+			database.collection(logs_collection).find({ '_id': { $in: queryId } }).toArray(function (err, docs) {
+				if (!err) {
+					logger.info('Searching, query params is: ' + JSON.stringify(params));
+					var resource = new hal.Resource({}, '/api/logs/' + docs[0]._id);
+					resource.embed('logs', docs);
+					res.json(resource);
+				}
+				logger.info('Search successfully, results are: ' + JSON.stringify(docs));
+			});
+		});
+	}
 }
 
+function getIdByES(esClient, query, callback) {
+	var items = [];
+	for (var key in query) {
+		if (query.hasOwnProperty(key)) {
+			items.push(query[key]);
+		}
+	}
+	var item = items.join(' AND ');
+	console.log(item);
+	esClient
+		.search({
+			index: 'coolest',
+			type: 'logs',
+			size: 100,
+			q: item
+		}).then(function (resp) {
+			logger.info('fetch data from es successfully for type user');
+			callback(resp.hits.hits);
+		}, function (err) {
+			logger.error('error when search from es in type users');
+		});
+}
+
+function isEmpty(obj) {
+	for (var key in obj) {
+		if (obj.hasOwnProperty(key))
+			return false;
+	}
+	return true;
+}
 
 function findLogByIdHandler(req, res) {
 	logger.info('handling by findLogByIdHandler');

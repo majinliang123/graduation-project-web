@@ -4,7 +4,7 @@ node_js:
   - "7"
 
 install: 
-  - cd gui && npm install && bower install 
+  - cd gui && npm install && grunt bower 
   - cd ../container && npm install
   - cd ../api/user_api && npm install
   - cd ../shop_api && npm install
