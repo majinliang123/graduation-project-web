@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
                 <p ng-repeat="item in model.detail">
-                    <span ng-if="item.type === 'text'">{{item.displayName}}:<input ng-model="detail[item.name]"/></span>
+                    <span ng-if="item.type === 'text'">{{item.displayName}}:<input ng-model="detail[item.name]" ng-disabled="authority[path] == 'read'"/></span>
                     <span ng-if="item.type === 'array'">
                         {{item.displayName}}: 
                         <br>

@@ -1,6 +1,7 @@
 {
     "collectoin": "users",
     "analy_collectoin": "user_analyse",
+    "authority_collectoin": "authority",
     "logging": {
         "logToConsole": true,
         "file": {

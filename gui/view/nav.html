@@ -20,9 +20,9 @@
                 </li>
             </ul>
             <form class="navbar-form navbar-right">
-            <div ng-include="globalSearch"></div>
-        </form>
-        </div> 
+                <div ng-include="globalSearch"></div>
+            </form>
+        </div>
     </div>
 </nav>
 <div class="container-fluid" ng-controller="SidebarController">
@@ -30,9 +30,8 @@
         <div class="sidebar col-sm-3 col-md-2">
             <ul class="nav nav-sidebar">
                 <li class="active"><a href="#">Overview<span class="sr-only">(current)</span></a></li>
-                <li ng-repeat="sidebar in sidebars"><a href="{{sidebar.link}}">{{sidebar.name}}</a></li>
+                <li ng-repeat="sidebar in sidebars" ng-if="!('unsee' == authority[sidebar.name])"><a href="{{sidebar.link}}">{{sidebar.displayName}}</a></li>
             </ul>
         </div>
     </div>
 </div>
-
