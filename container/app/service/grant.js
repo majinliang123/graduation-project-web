@@ -1,23 +1,19 @@
 'use strict';
 
-var Q = require('q');
-
-
 function grant(database, username, password, grantCollection) {
-    var deferred = Q.defer();
-
-    database.collection(grantCollection).find({ 'username': username, 'password': password }).toArray(function (err, docs) {
-        if (!err) {
-            if (docs.length > 0) {
-                deferred.resolve(true);
+    return new Promise(function(resolve, reject) {
+        database.collection(grantCollection).find({ 'username': username, 'password': password }).toArray(function(err, docs) {
+            if (!err) {
+                if (docs.length > 0) {
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
             } else {
-                deferred.resolve(false);
+                reject(err);
             }
-        } else {
-            deferred.reject(err);
-        }
+        });
     });
-    return deferred.promise;
 }
 
 module.exports.grant = grant;

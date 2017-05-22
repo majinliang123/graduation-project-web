@@ -9,7 +9,6 @@ var express = require("express"),
     bodyParser = require("body-parser"),
     cookieParser = require('cookie-parser'),
     glob = require("glob"),
-    Q = require('q'),
     elasticsearch = require('elasticsearch'),
     argv = require('yargs').argv,
     MongoClient = require('mongodb').MongoClient;
@@ -37,10 +36,10 @@ nconf.file('Base', { file: configPath });
 var port = nconf.get('port');
 var home = nconf.get('home');
 home = home + ':' + port;
-var logger = new (winston.Logger)({
+var logger = new(winston.Logger)({
     transports: [
-        new (winston.transports.Console)(),
-        new (winston.transports.File)({ filename: nconf.get('logging:file:path') })
+        new(winston.transports.Console)(),
+        new(winston.transports.File)({ filename: nconf.get('logging:file:path') })
     ]
 });
 var mongoDBUrl = nconf.get('mongoDBUrl');
@@ -51,10 +50,9 @@ var esClient;
 
 
 logger.info('coolest is starting.');
-connectToDB()
-    .then(connectToES)
-    .then(function () {
-        app.use('*', function (req, res, next) {
+Promise.all([connectToDB(), connectToES()])
+    .then(function() {
+        app.use('*', function(req, res, next) {
             logger.info('Request method is: ' + req.method + ' . Url is: ' + req.originalUrl);
             req.database = database;
             req.esClient = esClient;
@@ -70,13 +68,12 @@ connectToDB()
             resave: false,
             saveUninitialized: true,
         }));
-        app.use(function (req, res, next) {
+        app.use(function(req, res, next) {
             logger.info('check if authorization');
             if (!req.session.user) {
                 if (req.originalUrl == "/login") {
                     next();
-                }
-                else {
+                } else {
                     res.redirect('/login');
                 }
             } else if (req.session.user) {
@@ -84,29 +81,27 @@ connectToDB()
             }
         });
 
-        app.get('/logout', function (req, res) {
-            req.session.destroy(function (err) {
+        app.get('/logout', function(req, res) {
+            req.session.destroy(function(err) {
                 logger.info('logout successfully');
                 res.redirect('/login');
             });
         });
 
-        app.post('/login', function (req, res) {
-            grant.grant(req.database, req.body.username, req.body.password, grantCollection).then(function (access) {
+        app.post('/login', function(req, res) {
+            grant.grant(req.database, req.body.username, req.body.password, grantCollection).then(function(access) {
                 if (access) {
                     logger.info("login succeeds, will redirect to homepage");
                     logger.info("user name is: " + req.body.username);
                     var user = { 'username': req.body.username };
                     req.session.user = user;
                     res.redirect('/gui');
-                }
-                else {
+                } else {
                     logger.info("login failed, will redirect to /login");
                     res.redirect('/login');
                 }
             });
         });
-
 
         // init and run GUI
         if (nconf.get('guiPath')) {
@@ -123,12 +118,12 @@ connectToDB()
         // init and run apis
         logger.info('Apis is starting');
         var apiList = [];
-        glob(__dirname + '/' + nconf.get('apiPath') + '/*/manifest.json', function (err, files) {
+        glob(__dirname + '/' + nconf.get('apiPath') + '/*/manifest.json', function(err, files) {
             if (err) {
                 logger.error('No Api directory');
                 return;
             }
-            files.forEach(function (filePath) {
+            files.forEach(function(filePath) {
                 var manifest = JSON.parse(fs.readFileSync(filePath));
                 var resolvedPath;
                 if (manifest) {
@@ -141,53 +136,53 @@ connectToDB()
             app.use('/api', require('./service/api.js')(apiList, home));
         });
 
-        app.use('/login', function (req, res) {
+        app.use('/login', function(req, res) {
             res.sendFile(__dirname + '/public/login.html');
         });
 
-        app.listen(port, function () {
+        app.listen(port, function() {
             logger.info('coolest is started.');
             logger.info('coolest is listening at: ' + port);
         });
 
     }).
-    fail(function (err) {
-        logger.info('Error initializing Coolest');
-    });
+catch(function(err) {
+    logger.error('Error initializing Coolest, Error is : ' + err);
+});
 
 
 function connectToDB() {
-    var deferred = Q.defer();
-    MongoClient.connect(mongoDBUrl, function (err, db) {
-        if (!err) {
-            logger.info("Connected successfully to mongodb: " + mongoDBUrl);
-            database = db;
-            deferred.resolve();
-        } else {
-            logger.error("Connected failed to mongodb: " + mongoDBUrl);
-            deferred.reject("Connected failed to mongodb: " + mongoDBUrl);
-        }
+    return new Promise(function(resolve, reject) {
+        MongoClient.connect(mongoDBUrl, function(err, db) {
+            if (!err) {
+                logger.info("Connected successfully to mongodb: " + mongoDBUrl);
+                database = db;
+                resolve();
+            } else {
+                logger.error("Connected failed to mongodb: " + mongoDBUrl + "。 Error is :" + err);
+                reject("Connected failed to mongodb: " + mongoDBUrl + err);
+            }
+        });
     });
-    return deferred.promise;
 }
 
 
 function connectToES() {
-    var deferred = Q.defer();
-    esClient = new elasticsearch.Client({
-        host: elasticSearchUrl
-    });
-    esClient.ping({
-        requestTimeout: 1000
-    }, function (error) {
-        if (error) {
-            logger.error('Connected failed to ElasticSearch: ' + elasticSearchUrl);
-            deferred.reject('Connect failed to ElasticSearch: ' + elasticSearchUrl);
+    return new Promise(function(resolve, reject) {
+        esClient = new elasticsearch.Client({
+            host: elasticSearchUrl
+        });
+        esClient.ping({
+            requestTimeout: 1000
+        }, function(error) {
+            if (error) {
+                logger.error('Connected failed to ElasticSearch: ' + elasticSearchUrl);
+                reject('Connect failed to ElasticSearch: ' + elasticSearchUrl);
 
-        } else {
-            logger.info('Connected successfully to ElasticSearch: ' + elasticSearchUrl);
-            deferred.resolve();
-        }
+            } else {
+                logger.info('Connected successfully to ElasticSearch: ' + elasticSearchUrl);
+                resolve();
+            }
+        });
     });
-    return deferred.promise;
 }
