@@ -175,6 +175,7 @@
         "window": true,
         "require": true,
         "$": true,
+        "document": true,
         "Promise": true
     }
 }
