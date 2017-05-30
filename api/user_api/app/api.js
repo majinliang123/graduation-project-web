@@ -10,6 +10,7 @@ var nconf = require('nconf'),
 var user = require('./controller/user.js');
 var userAnaly = require('./controller/userAnaly.js');
 var userChange = require('./controller/userChange.js');
+var authority = require('./controller/authority.js');
 
 
 
@@ -27,10 +28,10 @@ app.use(bodyParser.urlencoded({
 swagger.setAppHandler(app);
 
 swagger.configureSwaggerPaths('', '/api-docs/user', '');
-// swagger.setHeaders = function setHeaders(res) {
-//     res.header('Access-Control-Allow-Headers', 'Content-Type, X-API-KEY');
-//     res.header('Content-Type', 'application/json; charset=utf-8');
-// };
+swagger.setHeaders = function setHeaders(res) {
+    res.header('Access-Control-Allow-Headers', 'Content-Type, X-API-KEY');
+    res.header('Content-Type', 'application/json; charset=utf-8');
+};
 
 
 
@@ -40,6 +41,7 @@ module.exports.initalize = function(callback) {
         .addGet(user.findUser)
         .addGet(user.findUserById)
         .addPost(userChange.changeUserByUsername)
-        .addGet(userAnaly.findUserByUsername);
+        .addGet(userAnaly.findUserByUsername)
+        .addGet(authority.findUserByUsername);
     callback(swagger);
 };

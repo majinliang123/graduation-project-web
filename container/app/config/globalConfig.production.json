@@ -11,6 +11,6 @@
         }
     },
     "grantCollection": "grant",
-    "mongoDBUrl": "mongodb://112.74.73.233/coolest",
+    "mongoDBUrl": "mongodb://112.74.73.233:27017,112.74.28.207:27017/coolest?autoreconnect=true&poolSize=15&connectTimeoutMS=5000&socketTimeoutMS=5000&replicaSet=repset",
     "elasticSearchUrl": "http://119.23.19.222:9200"
 }

@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
                 <p ng-repeat="item in model.detail">
-                    <span ng-if="item.type === 'text'">{{item.displayName}}:<input ng-model="detail[item.name]"/></span>
+                    <span ng-if="item.type === 'text'">{{item.displayName}}:<input ng-model="detail[item.name]" ng-disabled="authority[path] == 'read'"/></span>
                     <span ng-if="item.type === 'array'">
                         {{item.displayName}}: 
                         <br>
@@ -20,7 +20,7 @@
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="save()">Save</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="save()" ng-if="authority[path] == 'read'">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
