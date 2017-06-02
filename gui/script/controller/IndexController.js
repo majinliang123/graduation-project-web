@@ -23,7 +23,7 @@ angular.module('coolest', ['ngCookies'], function($locationProvider) {
         });
 
         function fetchAuthority() {
-            Search.get('/api/authority/', 'madison', '').then(function(data) {
+            Search.get('/api/authority/', $rootScope.username, '').then(function(data) {
                 $rootScope.authority = data;
             });
         }
